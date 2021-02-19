@@ -1,0 +1,61 @@
+name: Tests
+
+on: push
+
+jobs:
+  ios-unit-tests:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run tests iOS
+      run: |
+        set -o pipefail
+        swift package resolve
+        set -o pipefail
+        xcodebuild -project "TPPDF.xcodeproj"
+                   -scheme "TPPDF-Package"
+                   -clonedSourcePackagesDirPath .
+                   -sdk iphonesimulator
+                   -destination "OS=13.4,name=iPhone 11 Pro"
+                  -configuration Debug
+                  ONLY_ACTIVE_ARCH=YES
+                  test | xcpretty
+
+    - name: Generate Code Coverage
+      run: |
+        xcrun llvm-cov export \
+          .build/debug/InspectorPackageTests.xctest/Contents/MacOS/InspectorPackageTests \
+          -instr-profile .build/debug/codecov/default.profdata \
+          --format="lcov" \
+          --ignore-filename-regex "\\.build" \
+          --ignore-filename-regex "Tests" > info.lcov
+    - name: Upload Code Coverage
+      run: |  
+        bash <(curl -s https://codecov.io/bash) \
+          -J 'Inspector' \
+          -G info.lcov
+
+  macos-unit-tests:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run tests macOS
+      run: |
+        set -o pipefail
+        swift package resolve
+        set -o pipefail
+        xcodebuild -project "TPPDF.xcodeproj"
+                   -scheme "TPPDF-Package"
+                   -clonedSourcePackagesDirPath .
+                   -sdk macosx
+                  -configuration Debug
+                  ONLY_ACTIVE_ARCH=YES
+                  test | xcpretty
+
+  swiftlint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: SwiftLint
+      uses: norio-nomura/action-swiftlint@3.1.0
