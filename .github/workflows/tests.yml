@@ -45,12 +45,12 @@ jobs:
         set -o pipefail
         swift package resolve
         set -o pipefail
-        xcodebuild -project "TPPDF.xcodeproj"
-                   -scheme "TPPDF-Package"
-                   -clonedSourcePackagesDirPath .
-                   -sdk macosx
-                  -configuration Debug
-                  ONLY_ACTIVE_ARCH=YES
+        xcodebuild -project "TPPDF.xcodeproj" \
+                   -scheme "TPPDF-Package" \
+                   -clonedSourcePackagesDirPath . \
+                   -sdk macosx \
+                  -configuration Debug \
+                  ONLY_ACTIVE_ARCH=YES \
                   test | xcpretty
 
   swiftlint:
