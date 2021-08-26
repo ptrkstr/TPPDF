@@ -59,4 +59,4 @@ if sourceChanges && !testsUpdated {
 }
 
 // Run Swiftlint
-SwiftLint.lint(inline: true, configFile: ".swiftlint.yml")
+SwiftLint.lint(inline: false, configFile: ".swiftlint.yml")
