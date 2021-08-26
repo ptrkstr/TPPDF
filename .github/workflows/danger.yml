@@ -9,11 +9,13 @@ on:
 jobs:
   job-danger:
     name: Review, Lint, Verify
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
       - name: git checkout
         uses: actions/checkout@v1
       - name: Danger
-        uses: danger/swift@2.0.1
+        uses: danger/swift-with-swiftlint@3.3.0
+        with:
+            args: --failOnErrors --no-publish-check
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

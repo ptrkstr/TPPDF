@@ -10,7 +10,7 @@ on:
 jobs:
   ios-unit-tests:
     name: iOS Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
     - name: Run tests iOS
