@@ -6,7 +6,7 @@ let danger = Danger()
 // Changelog entries are required for changes to library files.
 let allSourceFiles = danger.git.modifiedFiles + danger.git.createdFiles
 let noChangelogEntry = !allSourceFiles.contains("CHANGELOG.md")
-let sourceChanges = allSourceFiles.contains { $0.hasPrefix("Sources") }
+let sourceChanges = allSourceFiles.contains { $0.hasPrefix("Source") }
 let isNotTrivial = !danger.github.pullRequest.title.contains("#trivial")
 if isNotTrivial && noChangelogEntry && sourceChanges {
     danger.warn("""
@@ -27,8 +27,8 @@ if (danger.github.pullRequest.additions ?? 0) > 500 {
 
 // Added (or removed) library files need to be added (or removed) from the
 // Xcode project to avoid breaking things for our Carthage/manual framework.
-let addedSwiftLibraryFiles = danger.git.createdFiles.contains { $0.fileType == .swift && $0.hasPrefix("Sources") }
-let deletedSwiftLibraryFiles = danger.git.deletedFiles.contains { $0.fileType == .swift && $0.hasPrefix("Sources") }
+let addedSwiftLibraryFiles = danger.git.createdFiles.contains { $0.fileType == .swift && $0.hasPrefix("Source") }
+let deletedSwiftLibraryFiles = danger.git.deletedFiles.contains { $0.fileType == .swift && $0.hasPrefix("Source") }
 let modifiedCarthageXcodeProject = danger.git.modifiedFiles.contains { $0.contains("TPPDF.xcodeproj") }
 if (addedSwiftLibraryFiles || deletedSwiftLibraryFiles) && !modifiedCarthageXcodeProject {
     fail("Added or removed library files require the Carthage Xcode project to be updated.")
