@@ -9,8 +9,8 @@ on:
 
 jobs:
   ios-unit-tests:
-    runs-on: macos-latest
-
+    name: iOS Unit Tests
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Run tests iOS
@@ -42,6 +42,7 @@ jobs:
           -G info.lcov
 
   macos-unit-tests:
+    name: macOS Unit Tests
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
