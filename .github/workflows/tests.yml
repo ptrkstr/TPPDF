@@ -52,10 +52,3 @@ jobs:
                   -configuration Debug \
                   ONLY_ACTIVE_ARCH=YES \
                   test | xcpretty
-
-  swiftlint:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: SwiftLint
-      uses: norio-nomura/action-swiftlint@3.1.0
