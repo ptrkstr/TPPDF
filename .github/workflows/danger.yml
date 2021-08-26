@@ -13,22 +13,6 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v1
-      - name: ruby versions
-        run: |
-          ruby --version
-          gem --version
-          bundler --version
-      - name: cache gems
-        uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gem-
-      - name: bundle install
-        run: |
-          bundle config path vendor/bundle
-          bundle install --without=documentation --jobs 4 --retry 3
       - name: Install Swiftlint
         run: |
           brew install swiftlint
