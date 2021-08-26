@@ -14,7 +14,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v1
       - name: Danger
-        uses: danger/swift-with-swiftlint@3.3.0
+        uses: docker://ghcr.io/danger/swift-with-swiftlint@3.10.2
         with:
             args: --failOnErrors --no-publish-check
         env:
