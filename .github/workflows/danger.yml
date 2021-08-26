@@ -13,9 +13,6 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v1
-      - name: Install Swiftlint
-        run: |
-          brew install swiftlint
       - name: Danger
         uses: danger/swift@2.0.1
         env:
