@@ -16,31 +16,17 @@ jobs:
     - name: Run tests iOS
       run: |
         set -o pipefail
-        swift package resolve
-        set -o pipefail
         xcodebuild -project "TPPDF.xcodeproj" \
                    -scheme "TPPDF-Package" \
                    -clonedSourcePackagesDirPath . \
                    -sdk iphonesimulator \
                    -destination "OS=14.4,name=iPhone 12 Pro" \
-                  -configuration Debug \
-                  ONLY_ACTIVE_ARCH=YES \
-                  test | xcpretty
-
-    - name: Generate Code Coverage
-      run: |
-        ls -l .build/debug  
-        xcrun llvm-cov export \
-          .build/debug/TPPDFPackageTests.xctest/Contents/MacOS/TPPDFPackageTests \
-          -instr-profile .build/debug/codecov/default.profdata \
-          --format="lcov" \
-          --ignore-filename-regex "\\.build" \
-          --ignore-filename-regex "Tests" > info.lcov
-    - name: Upload Code Coverage
-      run: |  
-        bash <(curl -s https://codecov.io/bash) \
-          -J 'Inspector' \
-          -G info.lcov
+                   -configuration Debug \
+                   -enableCodeCoverage YES \
+                   ONLY_ACTIVE_ARCH=YES \
+                   build test | xcpretty
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1.2
 
   macos-unit-tests:
     name: macOS Unit Tests
