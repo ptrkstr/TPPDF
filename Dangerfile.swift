@@ -2,7 +2,6 @@ import Danger
 import Foundation
 
 let danger = Danger()
-let github = danger.github
 
 // Changelog entries are required for changes to library files.
 let allSourceFiles = danger.git.modifiedFiles + danger.git.createdFiles

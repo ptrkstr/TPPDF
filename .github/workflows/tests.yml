@@ -29,8 +29,9 @@ jobs:
 
     - name: Generate Code Coverage
       run: |
+        ls -l .build/debug  
         xcrun llvm-cov export \
-          .build/debug/TPPDFPackageTests.xctest/Contents/MacOS/InspectorPackageTests \
+          .build/debug/TPPDFPackageTests.xctest/Contents/MacOS/TPPDFPackageTests \
           -instr-profile .build/debug/codecov/default.profdata \
           --format="lcov" \
           --ignore-filename-regex "\\.build" \
